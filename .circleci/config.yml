@@ -1,0 +1,30 @@
+---
+version: 2.1
+parameters:
+  organization:
+    type: string
+    default: ""
+  repository:
+    type: string
+    default: ""
+
+jobs:
+  register-vm-image:
+    docker:
+      - image: circleci/python:stretch
+    steps:
+      - checkout
+      - run:
+          name: Register VM Image to VM image repository
+          command: |
+              curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" \
+              -d '{"ref": "master", "environment": "command line execution"}' \
+              "https://api.github.com/repos/<< pipeline.parameters.organization >>/<< pipeline.parameters.repository >>/deployments"
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - register-vm-image:
+          context:
+            - GITHUB-ACTIONS
