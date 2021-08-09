@@ -7,6 +7,9 @@ parameters:
   repository:
     type: string
     default: ""
+  branch:
+    type: string
+    default: "master"
 
 jobs:
   register-vm-image:
@@ -18,7 +21,7 @@ jobs:
           name: Register VM Image to VM image repository
           command: |
               curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" \
-              -d '{"ref": "master", "environment": "command line execution"}' \
+              -d '{"ref": "<< pipeline.parameters.branch >>", "environment": "command line execution"}' \
               "https://api.github.com/repos/<< pipeline.parameters.organization >>/<< pipeline.parameters.repository >>/deployments"
 
 workflows:
