@@ -22,6 +22,7 @@ jobs:
           command: |
             curl -u ${CIRCLECI_TOKEN}: \
              -X POST --header "Content-Type: application/json" \
+             -d '{ "branch": "<< pipeline.parameters.branch >>" }' \
              https://circleci.com/api/v2/project/gh/<< pipeline.parameters.organizaion >>/<< pipeline.parameters.repository >>/pipeline
 
 workflows:
