@@ -20,9 +20,9 @@ jobs:
       - run:
           name: Register VM Image to VM image repository
           command: |
-              curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" \
-              -d '{"ref": "<< pipeline.parameters.branch >>", "environment": "command line execution"}' \
-              "https://api.github.com/repos/<< pipeline.parameters.organization >>/<< pipeline.parameters.repository >>/deployments"
+            curl -u ${CIRCLECI_TOKEN}: \
+             -X POST --header "Content-Type: application/json" \
+             https://circleci.com/api/v2/project/gh/<< pipeline.parameters.organizaion >>/<< pipeline.parameters.repository >>/pipeline
 
 workflows:
   version: 2
@@ -30,4 +30,4 @@ workflows:
     jobs:
       - register-vm-image:
           context:
-            - GITHUB-ACTIONS
+            - CIRCLECI 
